@@ -25,7 +25,7 @@ pipeline {
         }
         stage('push to harbor-dev'){
             when {
-                branch 'develop'
+                branch 'development'
                 }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'harbor', passwordVariable: 'pw', usernameVariable: 'user')]){
