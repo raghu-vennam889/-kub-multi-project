@@ -23,7 +23,7 @@ pipeline {
 
             }
         }
-        stage('push to harbor-dev'){
+        stage('push to docker'){
              steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'pw', usernameVariable: 'user')]){
                 sh 'docker tag sa-frontend:"$BUILD_NUMBER" raghuram889/sa-frontend:"$BUILD_NUMBER"'
@@ -37,3 +37,4 @@ pipeline {
         }
      }
 }
+deocker
