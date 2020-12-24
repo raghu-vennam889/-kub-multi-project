@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Email Notification') {
 	    steps {
-		emailext body: 'Build Failed. Please check the Dashboard of Jenkins', subject: 'Build Failed. Please check the Dashboard of Jenkins', to: 'basil1987@gmail.com'
+		emailext body: 'Build Failed. Please check the Dashboard of Jenkins', subject: 'Build Failed. Please check the Dashboard of Jenkins', to: 'raghu.vennam889@gmail.com'
             }
 	}
     }
