@@ -49,7 +49,6 @@ pipeline {
                 sh 'docker tag sa-frontend:"$BUILD_NUMBER" raghuram889/sa-logic:"$BUILD_NUMBER"'
                 sh 'docker push raghuram889/sa-frontend:"$BUILD_NUMBER"'
                 sh 'docker push raghuram889/sa-webapp:"$BUILD_NUMBER"'
-                sh 'docker push raghuram889/sa-logic:"$BUILD_NUMBER"'
                 }
             }
         }
