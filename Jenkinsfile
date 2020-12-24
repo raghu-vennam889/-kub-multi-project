@@ -23,17 +23,36 @@ pipeline {
 
             }
         }
-        stage('push to docker'){
-             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'pw', usernameVariable: 'user')]){
-                sh 'docker tag sa-frontend:"$BUILD_NUMBER" raghuram889/sa-frontend:"$BUILD_NUMBER"'
-                sh 'docker tag sa-webapp:"$BUILD_NUMBER" raghuram889/sa-webapp:"$BUILD_NUMBER"'
-                sh 'docker tag sa-frontend:"$BUILD_NUMBER" raghuram889/sa-logic:"$BUILD_NUMBER"'
-                sh 'docker push raghuram889/sa-frontend:"$BUILD_NUMBER"'
-                sh 'docker push raghuram889/sa-webapp:"$BUILD_NUMBER"'
-                sh 'docker push raghuram889/sa-logic:"$BUILD_NUMBER"'
+        stage('push to harbor-dev'){
+            when {
+                branch 'develop'
+                }
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'harbor', passwordVariable: 'pw', usernameVariable: 'user')]){
+                sh 'docker tag sa-frontend:"$BUILD_NUMBER" harbor.devopsdoor.com/cicd_dev/sa-frontend:"$BUILD_NUMBER"'
+                sh 'docker tag sa-webapp:"$BUILD_NUMBER" harbor.devopsdoor.com/cicd_dev/sa-webapp:"$BUILD_NUMBER"'
+                sh 'docker tag sa-frontend:"$BUILD_NUMBER" harbor.devopsdoor.com/cicd_dev/sa-logic:"$BUILD_NUMBER"'
+                sh 'docker push harbor.devopsdoor.com/cicd_dev/sa-frontend:"$BUILD_NUMBER"'
+                sh 'docker push harbor.devopsdoor.com/cicd_dev/sa-webapp:"$BUILD_NUMBER"'
+                sh 'docker push harbor.devopsdoor.com/cicd_dev/sa-logic:"$BUILD_NUMBER"'
                 }
             }
         }
-     }
+        stage('push to harbor-prod'){
+            when {
+                branch 'master'
+                }
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'harbor', passwordVariable: 'pw', usernameVariable: 'user')]){
+                sh 'docker tag sa-frontend:"$BUILD_NUMBER" harbor.devopsdoor.com/cicd-prod/sa-frontend:"$BUILD_NUMBER"'
+                sh 'docker tag sa-webapp:"$BUILD_NUMBER" harbor.devopsdoor.com/cicd-prod/sa-webapp:"$BUILD_NUMBER"'
+                sh 'docker tag sa-frontend:"$BUILD_NUMBER" harbor.devopsdoor.com/cicd-prod/sa-logic:"$BUILD_NUMBER"'
+                sh 'docker push harbor.devopsdoor.com/cicd-prod/sa-frontend:"$BUILD_NUMBER"'
+                sh 'docker push harbor.devopsdoor.com/cicd-prod/sa-webapp:"$BUILD_NUMBER"'
+                sh 'docker push harbor.devopsdoor.com/cicd-prod/sa-logic:"$BUILD_NUMBER"'
+                }
+            }
+        }
+
+    }
 }
