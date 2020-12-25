@@ -24,9 +24,7 @@ pipeline {
             }
         }
         stage('push to harbor-dev'){
-            when {
-                branch 'development'
-                }
+            
             steps {
                 withCredentials([usernamePassword(credentialsId: 'harbor', passwordVariable: 'pw', usernameVariable: 'user')]){
                 sh 'docker tag sa-frontend:"$BUILD_NUMBER" harbor.devopsdoor.com/cicd_dev/sa-frontend:"$BUILD_NUMBER"'
@@ -39,9 +37,7 @@ pipeline {
             }
         }
         stage('push to harbor-prod'){
-            when {
-                branch 'master'
-                }
+            
             steps {
                 withCredentials([usernamePassword(credentialsId: 'harbor', passwordVariable: 'pw', usernameVariable: 'user')]){
                 sh 'docker tag sa-frontend:"$BUILD_NUMBER" harbor.devopsdoor.com/cicd-prod/sa-frontend:"$BUILD_NUMBER"'
